@@ -1,4 +1,6 @@
 import { Layout } from "@/components/layout";
+import { ImagePlus } from "lucide-react";
+import Link from "next/link";
 
 export const Footer = () => {
   return (
@@ -8,6 +10,11 @@ export const Footer = () => {
           <p className="text-xs">
             &copy; 2021 Example, Inc. All rights reserved.
           </p>
+        </div>
+        <div className="flex-1">
+          <Link href="/post/new">
+            <ImagePlus size={32} />
+          </Link>
         </div>
         <div>
           <a href="/privacy" className="text-xs">
