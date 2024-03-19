@@ -20,6 +20,10 @@ export const LoggedInDropdown = (props: LoggedInDropdownProps) => {
       <DropdownMenuContent>
         <DropdownMenuItem>
           <User2 size={16} className="mr-2 " />
+          <Link href="/dashboard">Dashboard</Link>
+        </DropdownMenuItem>
+        <DropdownMenuItem>
+          <User2 size={16} className="mr-2 " />
           <Link href="/profile">Profile</Link>
         </DropdownMenuItem>
         <DropdownMenuItem
