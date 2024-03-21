@@ -1,4 +1,5 @@
-name: Scheduled dependencies update
+name: Oven CI
+
 on:
   push:
 
