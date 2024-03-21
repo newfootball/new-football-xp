@@ -1,4 +1,5 @@
 import { cn } from "@/lib/utils";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 import type { Metadata, Viewport } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
@@ -61,6 +62,7 @@ export default function RootLayout({
     <html lang="en" className="h-full" suppressHydrationWarning>
       <body className={cn(inter.className, "h-full")}>
         <Providers>{children}</Providers>
+        <SpeedInsights />
       </body>
     </html>
   );
