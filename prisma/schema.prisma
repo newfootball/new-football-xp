@@ -4,22 +4,22 @@ datasource db {
 }
 
 generator client {
-  provider        = "prisma-client-js"
+  provider = "prisma-client-js"
 }
 
 model Account {
-  id                 String  @id @default(cuid())
-  userId             String
-  type               String
-  provider           String
-  providerAccountId  String
-  refresh_token      String?  @db.Text
-  access_token       String?  @db.Text
-  expires_at         Int?
-  token_type         String?
-  scope              String?
-  id_token           String?  @db.Text
-  session_state      String?
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String? @db.Text
+  access_token      String? @db.Text
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String? @db.Text
+  session_state     String?
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
@@ -36,12 +36,45 @@ model Session {
 
 model User {
   id            String    @id @default(cuid())
-  name          String?
+  username      String?   @unique
   email         String?   @unique
   emailVerified DateTime?
   image         String?
-  accounts      Account[]
-  sessions      Session[]
+
+  birthday     DateTime?
+  firstName    String?
+  lastName     String?
+  biography    String?
+  position     String?
+  footer       String?
+  license      String?
+  contract     String?
+  size         Int?
+  weight       Int?
+  localisation String?
+  gender       Gender?
+  role         Role     @default(USER)
+  userTypeId   String?
+  userType     UserType? @relation(fields: [userTypeId], references: [id]) 
+
+  followers Follow[] @relation("follower")
+  followeds Follow[] @relation("followed")
+
+  accounts Account[]
+  sessions Session[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime? @updatedAt
+}
+
+enum Role {
+  USER
+  ADMIN
+}
+
+enum Gender {
+  MALE
+  FEMALE
 }
 
 model VerificationToken {
@@ -50,4 +83,23 @@ model VerificationToken {
   expires    DateTime
 
   @@unique([identifier, token])
+}
+
+model UserType {
+  id          String  @id @default(cuid())
+  label       String
+  code        String
+  description String?
+  User        User[]
+}
+
+model Follow {
+  id          String   @id @default(cuid())
+  followerId  String
+  followingId String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  follower User @relation("follower", fields: [followerId], references: [id], onDelete: Cascade)
+  followed User @relation("followed", fields: [followingId], references: [id], onDelete: Cascade)
 }
