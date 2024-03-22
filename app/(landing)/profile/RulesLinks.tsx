@@ -3,7 +3,7 @@ import Link from "next/link";
 
 export const RulesLinks = () => {
   return (
-    <div className="m-auto border-t border-accent bg-background py-2">
+    <div className="m-auto mt-5 border-t border-accent bg-background py-2">
       <Layout className=" flex items-center gap-2">
         <div className="flex-1">
           <p className="text-xs">
@@ -11,9 +11,14 @@ export const RulesLinks = () => {
           </p>
         </div>
         <div>
-          <Link href="/privacy" className="text-xs">
-            Privacy Policy
-          </Link>
+          <ul>
+            <li>
+              <Link href="/privacy">Privacy Policy</Link>
+            </li>
+            <li>
+              <Link href="/about-us">About us</Link>
+            </li>
+          </ul>
         </div>
       </Layout>
     </div>

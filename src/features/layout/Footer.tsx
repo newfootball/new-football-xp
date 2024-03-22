@@ -1,8 +1,8 @@
+import { auth } from "@/auth/auth";
 import { Layout } from "@/components/layout";
-import { ImagePlus } from "lucide-react";
+import { ImagePlus, User } from "lucide-react";
 import Link from "next/link";
 import { SignInButton } from "../auth/SignInButton";
-import { auth } from "@/auth/auth";
 
 export const Footer = async () => {
   const session = await auth();
@@ -20,7 +20,11 @@ export const Footer = async () => {
             <SignInButton />
           )}
         </div>
-        <div></div>
+        <div>
+          <Link href="/profile" className="text-xs">
+            <User size={32} />
+          </Link>
+        </div>
       </Layout>
     </footer>
   );

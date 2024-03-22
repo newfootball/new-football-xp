@@ -14,7 +14,7 @@ export default async function ProfilePage() {
   return (
     <>
       <Container>
-        <div className="flex items-center gap-4">
+        <div className="mt-5 flex items-center gap-4">
           {session.user.image ? (
             <Image
               className="rounded-full"
@@ -25,10 +25,16 @@ export default async function ProfilePage() {
             />
           ) : null}
         </div>
+        <div className="mx-auto mt-5 flex items-center gap-4">
+          <h1 className="flex-col uppercase">
+            {session.user.name ?? "Anonymous"}
+          </h1>
+        </div>
 
         {JSON.stringify(session.user)}
+
+        <RulesLinks />
       </Container>
-      <RulesLinks />
     </>
   );
 }
