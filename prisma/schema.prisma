@@ -53,17 +53,18 @@ model User {
   weight       Int?
   localisation String?
   gender       Gender?
-  role         Role     @default(USER)
+  role         Role      @default(USER)
   userTypeId   String?
-  userType     UserType? @relation(fields: [userTypeId], references: [id]) 
+  userType     UserType? @relation(fields: [userTypeId], references: [id])
 
   followers Follow[] @relation("follower")
   followeds Follow[] @relation("followed")
 
   accounts Account[]
   sessions Session[]
+  posts    Post[]
 
-  createdAt DateTime @default(now())
+  createdAt DateTime  @default(now())
   updatedAt DateTime? @updatedAt
 }
 
@@ -102,4 +103,27 @@ model Follow {
 
   follower User @relation("follower", fields: [followerId], references: [id], onDelete: Cascade)
   followed User @relation("followed", fields: [followingId], references: [id], onDelete: Cascade)
+}
+
+model Post {
+  id          String        @id @default(cuid())
+  slug        String        @unique
+  userId      String
+  title       String
+  description String
+  spamScore   SpamScoreEnum @default(NONE)
+
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  expiresAt   DateTime?
+  validatedAt DateTime?
+  publishedAt DateTime?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+enum SpamScoreEnum {
+  NONE
+  SUSPECT
+  SPAM
 }
