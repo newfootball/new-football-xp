@@ -32,6 +32,8 @@ prisma-studio: ## Migrate prisma
 ## —— Linters ———————————————————————————————————
 lint: ## Run all linters
 	bun lint
+	bun run prisma validate
+	bun run prisma format
 
 analyze: lint build ## Run all linters and tests
 
