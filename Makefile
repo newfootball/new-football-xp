@@ -24,7 +24,7 @@ prisma-seed: ## Generate prisma client
 	bun run prisma:seed
 
 prisma-migrate: ## Migrate prisma
-	bun run prisma migrate dev
+	bun run prisma migrate dev --preview-feature
 
 prisma-studio: ## Migrate prisma
 	bun run prisma studio
