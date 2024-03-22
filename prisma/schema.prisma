@@ -113,6 +113,8 @@ model Post {
   description String
   spamScore   SpamScoreEnum @default(NONE)
 
+  medias Media[]
+
   createdAt   DateTime  @default(now())
   updatedAt   DateTime  @updatedAt
   expiresAt   DateTime?
@@ -126,4 +128,16 @@ enum SpamScoreEnum {
   NONE
   SUSPECT
   SPAM
+}
+
+model Media {
+  id        String   @id @default(cuid())
+  postId    String
+  mimetype  String
+  url       String
+  filename  String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  post Post @relation(fields: [postId], references: [id], onDelete: Cascade)
 }
