@@ -55,7 +55,7 @@ push: ## Push current branch
 	@git push origin "$(current_branch)" --force-with-lease
 
 
-commit: analyze auto-commit git-rebase push ## Commit and push
+commit: analyze prisma-migrate auto-commit git-rebase push ## Commit and push
 
 ## —— Docker ———————————————————————————————————
 docker-up: ## Start docker
