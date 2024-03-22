@@ -58,3 +58,6 @@ commit: analyze auto-commit git-rebase push ## Commit and push
 ## —— Docker ———————————————————————————————————
 docker-up: ## Start docker
 	@docker compose up -d --wait --remove-orphans
+
+docker-down: ## Stop docker
+	@docker compose down --remove-orphans
