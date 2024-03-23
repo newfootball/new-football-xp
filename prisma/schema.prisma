@@ -45,17 +45,16 @@ model User {
   firstName    String?
   lastName     String?
   biography    String?
-  position     String?
-  footer       String?
+  position     Position[]
+  foot         Foot[]
   license      String?
   contract     String?
   size         Int?
   weight       Int?
   localisation String?
   gender       Gender?
-  role         Role      @default(USER)
-  userTypeId   String?
-  userType     UserType? @relation(fields: [userTypeId], references: [id])
+  role         Role       @default(USER)
+  userType     UserType   @default(USER)
 
   followers Follow[] @relation("follower")
   followeds Follow[] @relation("followed")
@@ -68,14 +67,40 @@ model User {
   updatedAt DateTime? @updatedAt
 }
 
+enum UserType {
+  USER
+  PLAYER
+  COACH
+  RECRUITER
+}
+
+enum Position {
+  GOALKEEPER
+  CENTRE_BACK
+  RIGHT_BACK
+  LEFT_BACK
+  DEFENSIVE_MIDFIELDER
+  CENTRE_MIDFIELDER
+  ATTACKING_MIDFIELDER
+  RIGHT_WINGER
+  LEFT_WINGER
+  CENTRE_FORWARD
+  STRIKER
+}
+
+enum Foot {
+  LEFT
+  RIGHT
+}
+
 enum Role {
   USER
   ADMIN
 }
 
 enum Gender {
-  MALE
-  FEMALE
+  male
+  female
 }
 
 model VerificationToken {
@@ -84,14 +109,6 @@ model VerificationToken {
   expires    DateTime
 
   @@unique([identifier, token])
-}
-
-model UserType {
-  id          String  @id @default(cuid())
-  label       String
-  code        String
-  description String?
-  User        User[]
 }
 
 model Follow {
@@ -106,12 +123,12 @@ model Follow {
 }
 
 model Post {
-  id          String        @id @default(cuid())
-  slug        String        @unique
+  id          String    @id @default(cuid())
+  slug        String    @unique
   userId      String
   title       String
   description String
-  spamScore   SpamScoreEnum @default(NONE)
+  spamScore   SpamScore @default(NONE)
 
   medias Media[]
 
@@ -124,7 +141,7 @@ model Post {
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
-enum SpamScoreEnum {
+enum SpamScore {
   NONE
   SUSPECT
   SPAM
