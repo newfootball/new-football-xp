@@ -1,12 +1,5 @@
 import { faker } from "@faker-js/faker/locale/fr";
-import {
-  Foot,
-  Gender,
-  Position,
-  Prisma,
-  PrismaClient,
-  UserType,
-} from "@prisma/client";
+import { Foot, Position, Prisma, PrismaClient, UserType } from "@prisma/client";
 import { randomizer, selectRandomItems } from "../../src/lib/array";
 
 export const seedUsers = async (prisma: PrismaClient) => {
@@ -66,7 +59,13 @@ function customDataUser(userType: UserType, sexType: String): any {
           Position.ATTACKING_MIDFIELDER,
           Position.CENTRE_BACK,
           Position.LEFT_BACK,
+          Position.RIGHT_BACK,
           Position.RIGHT_WINGER,
+          Position.LEFT_WINGER,
+          Position.STRIKER,
+          Position.CENTRE_FORWARD,
+          Position.CENTRE_MIDFIELDER,
+          Position.DEFENSIVE_MIDFIELDER,
         ]),
       };
     case UserType.COACH:
