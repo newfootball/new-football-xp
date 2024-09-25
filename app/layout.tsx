@@ -57,6 +57,7 @@ export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
+  cookies: any;
 }>) {
   return (
     <html lang="en" className="h-full" suppressHydrationWarning>

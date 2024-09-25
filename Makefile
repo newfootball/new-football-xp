@@ -21,6 +21,7 @@ prisma: ## Generate prisma client
 	bun run prisma generate
 
 prisma-seed: ## Generate prisma client
+	prisma db push --force-reset
 	bun run prisma:seed
 
 prisma-migrate: ## Migrate prisma
@@ -31,7 +32,7 @@ prisma-studio: ## Migrate prisma
 
 ## —— Linters ———————————————————————————————————
 lint: ## Run all linters
-	bun lint
+#	bun lint
 	bun run prisma validate
 	bun run prisma format
 
@@ -63,3 +64,12 @@ docker-up: ## Start docker
 
 docker-down: ## Stop docker
 	@docker compose down --remove-orphans
+
+docker-db:
+	@docker compose exec -ti database psql app password
+
+docker-logs:
+	@docker compose logs -f $(c)
+
+docker-ps:
+	@docker compose ps -a
