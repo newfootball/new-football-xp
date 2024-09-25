@@ -12,7 +12,7 @@ export const seedUsers = async (prisma: PrismaClient) => {
   return users;
 };
 
-function userData(): Prisma.UserCreateInput {
+const userData = (): Prisma.UserCreateInput => {
   const sexType = faker.person.sexType();
   const person = {
     firstName: faker.person.firstName(sexType),
@@ -40,7 +40,7 @@ function userData(): Prisma.UserCreateInput {
     ...regularUser,
     ...customDataUser(regularUser.userType, sexType),
   } satisfies Prisma.UserCreateInput;
-}
+};
 
 function customDataUser(userType: UserType, sexType: String): any {
   switch (userType) {

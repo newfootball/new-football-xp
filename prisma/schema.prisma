@@ -7,6 +7,59 @@ generator client {
   provider = "prisma-client-js"
 }
 
+enum SpamScore {
+  NONE
+  SUSPECT
+  SPAM
+}
+
+enum UserType {
+  USER
+  PLAYER
+  COACH
+  RECRUITER
+}
+
+enum Position {
+  GOALKEEPER
+  CENTRE_BACK
+  RIGHT_BACK
+  LEFT_BACK
+  DEFENSIVE_MIDFIELDER
+  CENTRE_MIDFIELDER
+  ATTACKING_MIDFIELDER
+  RIGHT_WINGER
+  LEFT_WINGER
+  CENTRE_FORWARD
+  STRIKER
+}
+
+enum Foot {
+  LEFT
+  RIGHT
+}
+
+enum Role {
+  USER
+  ADMIN
+}
+
+enum Gender {
+  male
+  female
+}
+
+enum MediaType {
+  landingImage
+  mainVideo
+  shortVideo
+}
+
+enum PostType {
+  video
+  shortVideo
+}
+
 model Account {
   id                String  @id @default(cuid())
   userId            String
@@ -62,45 +115,10 @@ model User {
   accounts Account[]
   sessions Session[]
   posts    Post[]
+  likes    Like[]
 
   createdAt DateTime  @default(now())
   updatedAt DateTime? @updatedAt
-}
-
-enum UserType {
-  USER
-  PLAYER
-  COACH
-  RECRUITER
-}
-
-enum Position {
-  GOALKEEPER
-  CENTRE_BACK
-  RIGHT_BACK
-  LEFT_BACK
-  DEFENSIVE_MIDFIELDER
-  CENTRE_MIDFIELDER
-  ATTACKING_MIDFIELDER
-  RIGHT_WINGER
-  LEFT_WINGER
-  CENTRE_FORWARD
-  STRIKER
-}
-
-enum Foot {
-  LEFT
-  RIGHT
-}
-
-enum Role {
-  USER
-  ADMIN
-}
-
-enum Gender {
-  male
-  female
 }
 
 model VerificationToken {
@@ -127,10 +145,12 @@ model Post {
   slug        String    @unique
   userId      String
   title       String
+  type        PostType  @default(video)
   description String
   spamScore   SpamScore @default(NONE)
 
   medias Media[]
+  likes  Like[]
 
   createdAt   DateTime  @default(now())
   updatedAt   DateTime  @updatedAt
@@ -141,20 +161,25 @@ model Post {
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
-enum SpamScore {
-  NONE
-  SUSPECT
-  SPAM
-}
-
 model Media {
-  id        String   @id @default(cuid())
+  id        String    @id @default(cuid())
+  type      MediaType @default(mainVideo)
   postId    String
   mimetype  String
   url       String
-  filename  String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  filename  String?
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
 
   post Post @relation(fields: [postId], references: [id], onDelete: Cascade)
+}
+
+model Like {
+  id        String   @id @default(cuid())
+  userId    String
+  postId    String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  user      User     @relation(fields: [userId], references: [id])
+  post      Post     @relation(fields: [postId], references: [id])
 }
