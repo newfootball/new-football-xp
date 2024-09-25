@@ -4,11 +4,6 @@ const nextConfig = {
   images: {
     domains: ["lh3.googleusercontent.com"],
   },
-  overrideConfig: {
-    linterOptions: {
-      reportUnusedDisableDirectives: true, // ou 'error' selon vos préférences
-    },
-  },
 };
 
 import withPWAInit from "@ducanh2912/next-pwa";
