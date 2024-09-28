@@ -1,0 +1,3 @@
+const SavePost = ({ title, medias }: { title: string; medias: any[] }) => {
+  // ... code existant ...
+};

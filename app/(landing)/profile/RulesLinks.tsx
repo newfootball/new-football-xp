@@ -1,10 +1,10 @@
-import { Layout } from "@/components/layout";
+import { Container } from "@/components/container";
 import Link from "next/link";
 
 export const RulesLinks = () => {
   return (
     <div className="m-auto mt-5 border-t border-accent bg-background py-2">
-      <Layout className=" flex items-center gap-2">
+      <Container className=" flex items-center gap-2">
         <div className="flex-1">
           <p className="text-xs">
             &copy; 2021 Example, Inc. All rights reserved.
@@ -20,7 +20,7 @@ export const RulesLinks = () => {
             </li>
           </ul>
         </div>
-      </Layout>
+      </Container>
     </div>
   );
 };
