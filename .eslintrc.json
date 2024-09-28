@@ -1,6 +1,13 @@
 {
-  "extends": ["next/core-web-vitals", "plugin:tailwindcss/recommended"],
+  "overrideConfig": {
+    "linterOptions": {
+      "reportUnusedDisableDirectives": "error"
+    }
+  },
+  "plugins": [
+    // Define your plugins here
+  ],
   "rules": {
-    "react/no-unescaped-entities": 0
+    // Define your rules here
   }
 }

@@ -3,6 +3,8 @@ import { Container } from "@/components/container";
 import Image from "next/image";
 import { notFound } from "next/navigation";
 import { RulesLinks } from "./RulesLinks";
+import ProfileInfo from "./ProfileInfo";
+import { Prisma } from "@prisma/client";
 
 export default async function ProfilePage() {
   const session = await auth();
@@ -11,27 +13,12 @@ export default async function ProfilePage() {
     return notFound();
   }
 
+  console.log(session.user);
+
   return (
     <>
       <Container>
-        <div className="mt-5 flex items-center gap-4">
-          {session.user.image ? (
-            <Image
-              className="rounded-full"
-              src={session.user.image}
-              alt={`${session.user.name ?? "-"}'s profile picture`}
-              width={96}
-              height={96}
-            />
-          ) : null}
-        </div>
-        <div className="mx-auto mt-5 flex items-center gap-4">
-          <h1 className="flex-col uppercase">
-            {session.user.name ?? "Anonymous"}
-          </h1>
-        </div>
-
-        {JSON.stringify(session.user)}
+        <ProfileInfo user={session.user as Prisma.UserCreateInput} />
 
         <RulesLinks />
       </Container>

@@ -1,6 +1,6 @@
-import { CookieConsent } from "@/features/layout/CookieConsent";
-import { Footer } from "@/features/layout/Footer";
-import { Header } from "@/features/layout/Header";
+import { CookieConsent } from "./CookieConsent";
+import { Footer } from "./Footer";
+import { Header } from "./Header";
 import { LayoutParams } from "@/lib/next";
 
 export default function RouteLayout(props: LayoutParams<{}>) {

@@ -1,8 +1,8 @@
 import { Layout } from "@/components/layout";
+import { LoggedinButton } from "@/features/auth/LoggedinButton";
+import { ModeToggle } from "@/features/theme/ModeToggle";
 import Image from "next/image";
 import Link from "next/link";
-import { LoggedinButton } from "../auth/LoggedinButton";
-import { ModeToggle } from "../theme/ModeToggle";
 
 export const Header = () => {
   return (
