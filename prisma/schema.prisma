@@ -96,8 +96,7 @@ model User {
   password      String?
 
   birthday     DateTime?
-  firstName    String?
-  lastName     String?
+  fullName     String?
   biography    String?
   position     Position[]
   foot         Foot[]

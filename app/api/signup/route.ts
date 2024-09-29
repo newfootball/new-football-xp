@@ -7,7 +7,6 @@ import { z } from "zod";
 const prisma = new PrismaClient();
 
 const signUpSchema = z.object({
-  fullName: z.string().min(2, "Full name must be at least 2 characters"),
   username: z.string().min(3, "Username must be at least 3 characters"),
   email: z.string().email("Invalid email address"),
   password: z.string().min(8, "Password must be at least 8 characters"),
@@ -26,7 +25,6 @@ export async function POST(request: Request) {
     // Créer l'utilisateur
     const user = await prisma.user.create({
       data: {
-        firstName: validatedData.fullName,
         name: validatedData.username,
         email: validatedData.email,
         password: hashedPassword,

@@ -1,13 +1,30 @@
 "use client";
 
+import { Button } from "@/components/ui/button";
 import { Eye, EyeOff } from "lucide-react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import React, { useState } from "react";
+import { z } from "zod";
 import { SocialProvider } from "../SocialProvider";
 
+// Définir le schéma de validation Zod
+const signUpSchema = z
+  .object({
+    username: z.string().min(3, "Username must be at least 3 characters"),
+    email: z.string().email("Invalid email address"),
+    password: z.string().min(8, "Password must be at least 8 characters"),
+    repeatPassword: z.string(),
+  })
+  .refine((data) => data.password === data.repeatPassword, {
+    message: "Passwords don't match",
+    path: ["repeatPassword"],
+  });
+
+type SignUpFormData = z.infer<typeof signUpSchema>;
+
 export default function SignUpPage() {
-  const [formData, setFormData] = useState({
-    fullName: "",
+  const [formData, setFormData] = useState<SignUpFormData>({
     username: "",
     email: "",
     password: "",
@@ -16,6 +33,8 @@ export default function SignUpPage() {
   const [showPassword, setShowPassword] = useState(false);
   const [showRepeatPassword, setShowRepeatPassword] = useState(false);
   const [acceptTerms, setAcceptTerms] = useState(false);
+  const [errors, setErrors] = useState<string[]>([]);
+  const router = useRouter();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -25,34 +44,57 @@ export default function SignUpPage() {
     }));
   };
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    // Here you would typically send the form data to your backend
-    console.log("Form submitted:", formData);
+    setErrors([]);
+
+    try {
+      // Valider les données du formulaire
+      const validatedData = signUpSchema.parse(formData);
+
+      const response = await fetch("/api/signup", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(validatedData),
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error || "Failed to sign up");
+      }
+
+      // Inscription réussie
+      router.push("/login?signup=success");
+    } catch (error: any) {
+      if (error instanceof z.ZodError) {
+        setErrors(error.issues.map((issue) => issue.message));
+      } else if (error instanceof Error) {
+        setErrors([error.message]);
+      } else {
+        setErrors(["An unexpected error occurred"]);
+      }
+    }
   };
 
   return (
     <>
       <h3 className="text-xl font-semibold mb-4">Create an account</h3>
-      <form onSubmit={handleSubmit} className="space-y-4">
-        <div>
-          <label
-            htmlFor="fullName"
-            className="block text-sm font-medium text-gray-700"
-          >
-            Full name *
-          </label>
-          <input
-            type="text"
-            id="fullName"
-            name="fullName"
-            value={formData.fullName}
-            onChange={handleChange}
-            required
-            className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
-            placeholder="Name Surname"
-          />
+      {errors.length > 0 && (
+        <div
+          className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4"
+          role="alert"
+        >
+          <ul className="list-disc list-inside">
+            {errors.map((error, index) => (
+              <li key={index}>{error}</li>
+            ))}
+          </ul>
         </div>
+      )}
+
+      <form onSubmit={handleSubmit} className="space-y-4">
         <div>
           <label
             htmlFor="username"
@@ -163,13 +205,13 @@ export default function SignUpPage() {
           </label>
         </div>
         <div>
-          <button
+          <Button
             type="submit"
-            className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+            className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:opacity-50 disabled:cursor-not-allowed transition-opacity duration-200"
             disabled={!acceptTerms}
           >
             Sign up
-          </button>
+          </Button>
         </div>
       </form>
 
