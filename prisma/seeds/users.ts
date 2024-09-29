@@ -25,6 +25,7 @@ const userData = (): Prisma.UserCreateInput => {
       email: faker.internet.email(person),
       name: faker.person.fullName(person),
       image: faker.image.avatar(),
+      password: "$2b$10$XKxSk.ZPL9.UQdLtnF4O.OERcwnzJfD5lHMqIERx3H7gIQHGhHEIm",
       localisation:
         faker.location.latitude() + "," + faker.location.longitude(),
       userType: randomizer([
