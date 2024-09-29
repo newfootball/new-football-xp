@@ -15,15 +15,14 @@ export const seedUsers = async (prisma: PrismaClient) => {
 const userData = (): Prisma.UserCreateInput => {
   const sexType = faker.person.sexType();
   const person = {
-    firstName: faker.person.firstName(sexType),
-    lastName: faker.person.lastName(sexType),
+    fullName: faker.person.fullName({ sex: sexType }),
   };
 
   const regularUser = {
     ...person,
     ...{
-      email: faker.internet.email(person),
-      name: faker.person.fullName(person),
+      email: faker.internet.email({ firstName: person.fullName }),
+      name: faker.internet.userName({ firstName: person.fullName }),
       image: faker.image.avatar(),
       password: "$2b$10$XKxSk.ZPL9.UQdLtnF4O.OERcwnzJfD5lHMqIERx3H7gIQHGhHEIm",
       localisation:
