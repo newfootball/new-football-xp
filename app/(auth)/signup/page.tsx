@@ -7,6 +7,7 @@ import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 import { z } from "zod";
 import { SocialProvider } from "../SocialProvider";
+import { saveUser } from "./save-user.action";
 
 // Définir le schéma de validation Zod
 const signUpSchema = z
@@ -52,18 +53,9 @@ export default function SignUpPage() {
       // Valider les données du formulaire
       const validatedData = signUpSchema.parse(formData);
 
-      const response = await fetch("/api/signup", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(validatedData),
-      });
+      const user = await saveUser(validatedData);
 
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.error || "Failed to sign up");
-      }
+      console.log(user);
 
       // Inscription réussie
       router.push("/login?signup=success");
