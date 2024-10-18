@@ -40,7 +40,7 @@ export default function LoginPage() {
             htmlFor="username"
             className="block text-sm font-medium text-gray-700"
           >
-            Username
+            Username / E-mail
           </label>
           <input
             type="text"
